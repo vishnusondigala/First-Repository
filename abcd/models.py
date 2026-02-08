@@ -84,4 +84,175 @@ class Receiver(models.Model):
 
     def __str__(self):
         return self.organization_name
+    
+#------------------------------------------------------------------------------------------
+
+class Volunteer(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    availability = models.BooleanField(default=True)
+    assigned_area = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = "volunteers"
+
+    def __str__(self):
+        return self.user.name
+    
+#-------------------------------------------------------------------------------------------
+
+class Logistics(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    vehicle_number = models.CharField(max_length=50)
+    service_area = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = "logistics"
+
+    def __str__(self):
+        return self.user.name
+
+#-------------------------------------------------------------------------------------------
+
+class Donations(models.Model):
+
+    CONDITION_CHOICES = (
+        ("New", "New"),
+        ("Good", "Good"),
+        ("Usable", "Usable"),
+    )
+
+    STATUS_CHOICES = (
+        ("Pending", "Pending"),
+        ("Collected", "Collected"),
+        ("Delivered", "Delivered"),
+    )
+
+    donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
+    cloth_type = models.CharField(max_length=100)
+    quantity = models.IntegerField()
+    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
+    pickup_required = models.BooleanField(default=False)
+    donation_date = models.DateField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
+
+    class Meta:
+        db_table = "donations"
+
+    def __str__(self):
+        return f"{self.cloth_type} - {self.donor.user.name}"
+
+#-------------------------------------------------------------------------------------------
+
+class PickupRequest(models.Model):
+
+    PICKUP_STATUS = (
+        ("Scheduled", "Scheduled"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
+    )
+
+    donation = models.OneToOneField(
+        Donations,
+        on_delete=models.CASCADE
+    )
+    pickup_address = models.TextField()
+    pickup_date = models.DateField()
+    pickup_status = models.CharField(
+        max_length=20,
+        choices=PICKUP_STATUS,
+        default="Scheduled"
+    )
+
+    class Meta:
+        db_table = "pickup_requests"
+
+    def __str__(self):
+        return f"Pickup for Donation {self.donation.id}"
+
+#-----------------------------------------------------------------------------------
+
+
+class ReceiverRequest(models.Model):
+
+    REQUEST_STATUS = (
+        ("Approved", "Approved"),
+        ("Rejected", "Rejected"),
+        ("Fulfilled", "Fulfilled"),
+    )
+
+    receiver = models.ForeignKey(
+        Receiver,                 # Receiver table (NGO / Shelter / Orphanage)
+        on_delete=models.CASCADE
+    )
+    cloth_type = models.CharField(max_length=100)
+    quantity = models.IntegerField()
+    request_date = models.DateField()
+    status = models.CharField(
+        max_length=20,
+        choices=REQUEST_STATUS,
+        default="Approved"
+    )
+
+    class Meta:
+        db_table = "receiver_requests"
+
+    def __str__(self):
+        return f"Request by {self.receiver.id}"
+    
+#----------------------------------------------------------------------------
+
+class TaskAssignment(models.Model):
+
+    taskTypes = (
+        ("Collection", "Collection"),
+        ("Sorting", "Sorting"),
+        ("Delivery", "Delivery"),
+    )
+
+    taskStatus = (
+        ("Pending", "Pending"),
+        ("In Progress", "In Progress"),
+        ("Completed", "Completed"),
+    )
+
+    volunteer = models.ForeignKey(Volunteer,on_delete=models.CASCADE)
+    donation = models.ForeignKey(Donations,on_delete=models.CASCADE)
+    taskType = models.CharField(max_length=20,choices=taskTypes)
+    taskStatus = models.CharField(max_length=20,choices=taskStatus,default="Pending")
+
+    class Meta:
+        db_table = "task_assignment"
+
+    def __str__(self):
+        return self.taskType
+    
+#----------------------------------------------------------------------------------------------
+
+class Delivery(models.Model):
+
+    deliveryStatus = (
+        ("Pending", "Pending"),
+        ("Delivered", "Delivered"),
+    )
+
+    donation = models.ForeignKey(Donations,on_delete=models.CASCADE)
+    logistics = models.ForeignKey(Logistics,on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Receiver,on_delete=models.CASCADE)
+    deliveryDate = models.DateField()
+    deliveryStatus = models.CharField(max_length=20,choices=deliveryStatus,default="Pending")
+
+    class Meta:
+        db_table = "delivery"
+
+    def __str__(self):
+        return str(self.id)
+
+    
+
+
+
+
+
 
