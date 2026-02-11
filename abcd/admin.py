@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User,UserProfile,Donor,Receiver,Volunteer,Logistics,Donations,PickupRequest,ReceiverRequest,TaskAssignment,Delivery
+from .models import User,UserProfile,Donor,Receiver,Volunteer,Logistics,Donations,PickupRequest,ReceiverRequest,TaskAssignment,Delivery,Inventory,Feedback,Reports
 
 # Register your models here.
 
@@ -15,3 +15,6 @@ admin.site.register(PickupRequest)
 admin.site.register(ReceiverRequest)
 admin.site.register(TaskAssignment)
 admin.site.register(Delivery)
+admin.site.register(Inventory)
+admin.site.register(Feedback)
+admin.site.register(Reports)
