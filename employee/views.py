@@ -1,8 +1,10 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
 from .models import Employee
-from .forms import EmployeeForm,CourseForm
+from .forms import EmployeeForm,CourseForm,BatchForm,AttendanceForm
 
 # Create your views here.
+#-------------------------------10 fab--implementation-----------------------------------------------------------↡↡↡↡
+
 def employeeList(request):
     #employees = Employee.objects.all() #select * from employee
     employees = Employee.objects.all().values()
@@ -74,6 +76,9 @@ def employeeFilter(request):
     print("query 17",employee17) 
     return render(request, 'employee/employeeFilter.html')
 
+
+#-------------------------------11 fab--implementation-----------------------------------------------------------↡↡↡↡
+
 def createEmployee(request):    
     Employee.objects.create(name="ajay",age=23,salary=23000,post="HR",join_date="2022-01-01")
     return HttpResponse("EMPLOYEE CREATED...")
@@ -96,4 +101,78 @@ def createCourse(request):
         return HttpResponse("COURSE CREATED...")
     else:
         form = CourseForm()
-        return render(request,"employee/createCourse.html",{"form":form})    
+        return render(request,"employee/createCourse.html",{"form":form})   
+
+#-------------------------------11 fab--Task-----------------------------------------------------------↡↡↡↡ 
+
+
+
+def createAttendance(request):
+    if request.method == "POST":
+        form = AttendanceForm(request.POST)
+        form.save()
+        return HttpResponse(" Attendance CREATED...")
+    else:
+        form = AttendanceForm()
+        return render(request,"employee/createAttendance.html",{"form":form})  
+
+
+def createBatch(request):
+    if request.method == "POST":
+        form = BatchForm(request.POST)
+        form.save()
+        return HttpResponse("Batch CREATED...")
+    else:
+        form = BatchForm()
+        return render(request,"employee/createBatch.html",{"form":form})       
+      
+    
+#-------------------------------12 fab--implementation-----------------------------------------------------------↡↡↡↡
+
+
+def deleteEmployee(request,id):
+    #delete from employees where id = 1
+    print("id from url = ",id)
+    Employee.objects.filter(id=id).delete()
+    #return HttpResponse("EMPLOYEE DELETED...")
+    #employee list redirecr
+    return redirect("employeeList") #url --> name -->
+
+
+def filterEmployee(request):
+    print("filter employee called...")
+    employees = Employee.objects.filter(age__gte=25).values()
+    print("filter employees = ",employees)
+    #return redirect("employeeList")
+    return render(request,"employee/employeeList.html",{"employees":employees})     
+
+
+#-------------------------------12 fab--Task------------------------------------------------------------------↡↡↡↡ 
+
+
+def employeeList(request):
+    order = request.GET.get('order')
+
+    if order == "asc":
+        employees = Employee.objects.all().order_by("age").values()
+    elif order == "desc":
+        employees = Employee.objects.all().order_by("-age").values()
+    else:
+        employees = Employee.objects.all().values()
+
+    return render(request, 'employee/employeeList.html', {"employees": employees})
+
+
+#-------------------------------13 fab--implementation-----------------------------------------------------------↡↡↡↡
+
+def updateEmployee(request,id):
+    #database existing user... id -->
+    employee = Employee.objects.get(id=id) #select * from employee where id = 1
+    
+    if request.method == "POST":
+        form = EmployeeForm(request.POST,instance=employee)
+        form.save()
+        return redirect("employeeList")
+    else:
+        form = EmployeeForm(instance=employee)    
+        return render(request,"employee/updateEmployee.html",{"form":form})

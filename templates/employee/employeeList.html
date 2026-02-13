@@ -1,15 +1,8 @@
 <h1>EMPLOYEE LIST</h1>
-
-
-{% for emp in employees  %}
-    {{emp.id}}
-    {{emp.name}}
-    {{emp.age}}
-    {{emp.salary}}
-    {{emp.join_date}}
-    {{emp.post}}
-{% endfor %}
-
+<a href="{% url 'createEmployeeWithForm'%}">CREATE EMPLOYEE</a>
+<a href ="{% url 'filterEmployee' %}">FILTER</a>
+<a href="?order=asc">Age Ascending</a>
+<a href="?order=desc">Age Descending</a>    
 <table>
     <thead>
         <tr>
@@ -19,6 +12,7 @@
             <th>Salary</th>
             <th>Join Date</th>
             <th>Post</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +24,11 @@
             <td>{{emp.salary}}</td>
             <td>{{emp.join_date}}</td>
             <td>{{emp.post}}</td>
+            <td>
+                {% comment %} <a href="{% url 'deleteEmployee' %}">DELETE</a> {% endcomment %}
+                 <a href = "{% url 'deleteEmployee' emp.id %}">DELETE</a>
+                 <a href="{% url 'updateEmployee' emp.id %}">update</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
