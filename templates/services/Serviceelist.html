@@ -1,32 +1,56 @@
-
 <html>
-    <body>
-        <h2>Service List</h2>
+<body style="font-family:Segoe UI, sans-serif; background:#f4f6f9; margin:40px;">
 
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Duration (Days)</th>
+   <h1 style="text-align:center;color:#2c3e50;font-size:42px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;text-shadow:1px 1px 3px rgba(0,0,0,0.1);">Service List</h1>
+
+
+    <a href="{% url 'createservice' %}" 
+       style="display:inline-block; padding:8px 15px; background:#2c3e50; 
+              color:white; text-decoration:none; border-radius:5px; margin-bottom:15px;">
+        + Create Service
+    </a>
+
+    <table border="0" 
+           style="width:100%; border-collapse:collapse; background:white; 
+                  box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+
+        <tr style="background:#2c3e50; color:white;">
+            <th style="padding:12px;">ID</th>
+            <th style="padding:12px;">Name</th>
+            <th style="padding:12px;">Description</th>
+            <th style="padding:12px;">Price</th>
+            <th style="padding:12px;">Duration</th>
+            <th style="padding:12px;">Delete</th>
+            <th style="padding:12px;">Update</th>
         </tr>
 
         {% for ser in Servicee_list %}
-        <tr>
-            <td>{{ ser.name }}</td>
-            <td>{{ ser.description }}</td>
-            <td>{{ ser.price }}</td>
-            <td>{{ ser.duration }}</td>
+        <tr style="text-align:center; border-bottom:1px solid #ddd;">
+            <td style="padding:10px;">{{ ser.id }}</td>
+            <td style="padding:10px;">{{ ser.name }}</td>
+            <td style="padding:10px;">{{ ser.description }}</td>
+            <td style="padding:10px;">₹ {{ ser.price }}</td>
+            <td style="padding:10px;">{{ ser.duration }}</td>
+
+            <td style="padding:10px;">
+                <a href="{% url 'deleteservice' ser.id %}" 
+                   style="padding:5px 10px; background:#e74c3c; 
+                          color:white; text-decoration:none; border-radius:4px;">
+                    Delete
+                </a>
+            </td>
+
+            <td style="padding:10px;">
+                <a href="{% url 'updateservice' ser.id %}" 
+                   style="padding:5px 10px; background:#27ae60; 
+                          color:white; text-decoration:none; border-radius:4px;">
+                    Update
+                </a>
+            </td>
         </tr>
         {% endfor %}
 
     </table>
+
 </body>
 </html>
-
-
-
-
-
-
-    

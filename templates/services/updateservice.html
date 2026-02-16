@@ -16,31 +16,21 @@
     <h1 style="
         text-align:center;
         color:#2c3e50;
-        font-size:32px;
-        margin-bottom:5px;">
-        Create Service
+        font-size:30px;
+        margin-bottom:25px;">
+        Update Service
     </h1>
 
-    <p style="
-        text-align:center;
-        margin-bottom:25px;">
-        <a href="{% url 'Serviceelist' %}" 
-           style="
-           text-decoration:none;
-           color:#2c3e50;
-           font-weight:500;">
-            ← Back to Service List
-        </a>
-    </p>
-
-    <form method="POST">
+    <form method="post">
         {% csrf_token %}
 
-        <div style="margin-bottom:18px;">
-            {{ form }}
+        <div style="
+            margin-bottom:20px;
+            font-size:15px;">
+            {{ form.as_p }}
         </div>
 
-        <input type="submit" value="Submit"
+        <input type="submit" value="Update"
                style="
                width:100%;
                padding:12px;
