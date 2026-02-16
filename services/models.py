@@ -9,6 +9,6 @@ class Servicee(models.Model):
     duration = models.IntegerField(help_text="Duration in days")
 
     class Meta:
-        db_table = "Servicee"   
+        db_table = "Servicee"  
     def __str__(self):
         return self.name

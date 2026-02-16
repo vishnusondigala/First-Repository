@@ -1,0 +1,32 @@
+
+<html>
+    <body>
+        <h2>Service List</h2>
+
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Duration (Days)</th>
+        </tr>
+
+        {% for ser in Servicee_list %}
+        <tr>
+            <td>{{ ser.name }}</td>
+            <td>{{ ser.description }}</td>
+            <td>{{ ser.price }}</td>
+            <td>{{ ser.duration }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
+
+
+
+
+
+
+    
