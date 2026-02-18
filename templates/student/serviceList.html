@@ -10,6 +10,13 @@
     <div class="card-content">
       <span class="service-category">{{service.categoryId.categoryName}}</span>
       <h3 class="service-title">{{service.serviceName}}</h3>
+
+      <a href="{% url 'deleteService' service.id %}"
+         onclick="return confirm('Are you sure you want to delete {{ service.serviceName }} ?')"
+         style="color:red; font-weight:bold;">
+         Delete
+      </a>
+      
     </div>
   </div>
 {% endfor %}

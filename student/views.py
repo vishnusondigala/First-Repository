@@ -25,4 +25,11 @@ def createService(request):
     else:
         form = ServiceForm()
         return render(request,"student/createService.html",{"form":form})
+    
+
+def deleteService(request, id):
+    service = Service.objects.get(id=id)
+    service.delete()
+    return redirect("serviceList")
+
 
