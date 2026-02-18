@@ -5,9 +5,9 @@ urlpatterns = [
     path('employeeFilter/', views.employeeFilter),
     path('createemployee/',views.createEmployee),
     path('createEmployeeWithForm/',views.createEmployeeWithForm,name="createEmployeeWithForm"),
-    path('createCourse/',views.createCourse),
+    path('createCourse/',views.createCourse,name="createCourse"),
     path('createBatch/',views.createBatch),
-    path('createAttendance/',views.createAttendance),
+    path('createAttendance/',views.createAttendance,name="createAttendance"),
     path("deleteEmployee/<int:id>",views.deleteEmployee,name="deleteEmployee"),
     path("filterEmployee/",views.filterEmployee,name="filterEmployee"),
     path("updateemployee/<int:id>",views.updateEmployee,name="updateEmployee")
